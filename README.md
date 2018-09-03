@@ -1,5 +1,18 @@
 # PySchemaConf
+Configuration File Handle Module for Python. It supports varieties of data type such as JSON, YAML, PYTHON DICT.
 
+```python
+>>> from pyschemaconf import Config
+>>> conf = Config(config_file, schema_file)
+>>> conf.name
+John Doe
+>>> conf.name = "Jack"
+>>> conf.name
+Jack
+>>> conf.test_2_test3_test4
+1
+>>> conf.save() 
+``` 
 # Installation
 ```shell
 pip install pyschemaconf
