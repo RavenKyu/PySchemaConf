@@ -1,0 +1,1 @@
+from pyschemaconf.config import Config
