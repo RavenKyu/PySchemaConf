@@ -36,6 +36,15 @@ class Config(dict):
         self._schema = schema
 
     # ==========================================================================
+    def _make_schema(self, filename):
+        self.load(filename)
+        from genson import SchemaBuilder
+        sc = SchemaBuilder()
+        sc.add_object(self)
+        # filename = filename[:filename.rfind('.')]
+        return sc.to_json(indent=4) + '\n'
+
+    # ==========================================================================
     def validate_config(self, config: dict):
         # todo: 스키마 파일 없을 경우 동작 추가
         jsonschema.validate(config, self.schema)
@@ -157,6 +166,8 @@ class Config(dict):
             return 'bool'
         else:
             return 'None'
+
+
 
 
 

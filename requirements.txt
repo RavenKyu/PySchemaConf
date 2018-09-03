@@ -1,5 +1,5 @@
-genson
-jsonschema
-apitools
-rstr
-PyYaml
+apitools==0.1.4
+genson==1.0.1
+jsonschema==2.6.0
+PyYAML==3.13
+rstr==2.2.6

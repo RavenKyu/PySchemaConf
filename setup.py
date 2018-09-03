@@ -1,5 +1,9 @@
-from pip.req import parse_requirements
-from pip.download import PipSession
+try: # for pip >= 10
+    from pip._internal.req import parse_requirements
+    from pip._internal.download import PipSession
+except ImportError: # for pip <= 9.0.3
+    from pip.req import parse_requirements
+    from pip.download import PipSession
 
 
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
@@ -10,12 +14,12 @@ from setuptools import setup, find_packages
 reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
-    name='pyschemaconfig',
+    name='pyschemaconf',
     version='1.0',
-    description='Configure File Handle Module',
+    description='Configuration File Handle Module for Python. It supports varieties of data type such as JSON, YAML, PYTHON DICT. ',
     author='Duk-kyu Lim',
     author_email='hong18s@gmail.com',
-    url='https://github.com/RavenKyu/YAML_Schema',
+    url='https://github.com/RavenKyu/PySchemaConf',
     download_url='https://github.com/RavenKyu/YAML_Schema/archive/0.9.tar.gz',
     install_requires=reqs,
     packages=find_packages(exclude=['docs', 'tests*']),
@@ -34,7 +38,7 @@ setup(
     ],
     entry_points={
               'console_scripts': [
-                  'pyschemaconfig = pyschemaconfig.config.Config:main',
+                  'pyschemaconf = pyschemaconf:main',
               ],
           },
 )

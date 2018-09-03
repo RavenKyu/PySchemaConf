@@ -29,3 +29,6 @@ obj
 .idea
 venv
 Cache
+build
+dist
+*.egg-info
