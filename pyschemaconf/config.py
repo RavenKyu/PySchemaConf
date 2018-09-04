@@ -167,9 +167,23 @@ class Config(dict):
         else:
             return 'None'
 
+    # ==========================================================================
+    def save(self):
+        if not self._filename:
+            raise Exception
+        save = {
+            "json": self._save_as_json,
+            "yaml": self._save_as_yaml,
+            "yml": self._save_as_yaml,}
+        ext = self._filename[self._filename.rfind('.') + 1:]
+        save[ext](self, self._filename)
 
+    # ==========================================================================
+    def _save_as_json(self, data: dict, filename: str):
+        with open(filename, 'w') as f:
+            f.write(json.dumps(data, indent=4, ensure_ascii=False))
 
-
-
-
-
+    # ==========================================================================
+    def _save_as_yaml(self, data: dict, filename: str):
+        with open(filename, 'w') as f:
+            f.write(yaml.dump(data, indent=4, allow_unicode=True))

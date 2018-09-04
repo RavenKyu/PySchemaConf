@@ -11,71 +11,21 @@
 
 import unittest
 import os
+
+from genson import SchemaBuilder
+import json
+import yaml
+
 from pyschemaconf.config import Config
 from jsonschema.exceptions import ValidationError
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-TEST_SCHEMA = \
-    {
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string"
-            },
-            "cellphone": {
-                "type": "string"
-            },
-            "address": {
-                "type": "string"
-            },
-            "age": {
-                "type": "integer"
-            },
-            "test_1": {
-                "type": "array",
-                "items": {
-                    "type": "integer"
-                }
-            },
-            "test_2": {
-                "type": "object",
-                "properties": {
-                    "test3": {
-                        "type": "object",
-                        "properties": {
-                            "test4": {
-                                "type": "integer"
-                            },
-                            "test5": {
-                                "type": "integer"
-                            }
-                        },
-                        "required": [
-                            "test4",
-                            "test5"
-                        ]
-                    },
-                    "test6": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "test3",
-                    "test6"
-                ]
-            }
-        },
-        "required": [
-            "address",
-            "age",
-            "cellphone",
-            "name",
-            "test_1",
-            "test_2"
-        ]
-    }
+TEST_CONFIG_FILE_JSON = "test_config.json"
+TEST_CONFIG_FILE_YAML = "test_config.yaml"
+TEST_SCHEMA_FILE_JSON = "test_schema.json"
+TEST_SCHEMA_FILE_YAML = "test_schema.yaml"
 
 TEST_CONFIG = {
     "name": "홍길동",
@@ -92,6 +42,28 @@ TEST_CONFIG = {
     }
 }
 
+# test_config.json 생성
+with open(TEST_CONFIG_FILE_JSON, 'w') as f:
+    f.write(json.dumps(TEST_CONFIG, indent=4, ensure_ascii=False))
+
+# test_config.yaml 생성
+with open(TEST_CONFIG_FILE_YAML, 'w') as f:
+    f.write(yaml.dump(TEST_CONFIG, indent=4, allow_unicode=True))
+
+# test_schema 생성
+sc = SchemaBuilder()
+sc.add_object(TEST_CONFIG)
+TEST_SCHEMA = json.loads(sc.to_json(indent=4))
+
+# test_schema.json 생성
+with open(TEST_SCHEMA_FILE_JSON, 'w') as f:
+    f.write(json.dumps(TEST_SCHEMA, indent=4))
+
+# test_schema.yaml 생성
+with open(TEST_SCHEMA_FILE_YAML, 'w') as f:
+    f.write(yaml.dump(TEST_SCHEMA, indent=4))
+
+
 TEST_WRONG_CONFIG = {
 	"name" : 123,
 	"cellphone": "010-1345-7764",
@@ -106,6 +78,7 @@ TEST_WRONG_CONFIG = {
         "test6": 2222
     }
 }
+
 
 
 ################################################################################
@@ -271,4 +244,25 @@ class TestUnit (unittest.TestCase):
         self.assertRaises(
             AttributeError, lambda: getattr(self.config, "test_2_test3"))
 
+    # ==========================================================================
+    def test_save_conf_file(self):
+        """
+        저장된 설정 정보를 파일로 저장
+        기본 저장형태는 Json
+        :return:
+        """
+        self.config.load(
+            os.path.join(__location__, TEST_CONFIG_FILE_JSON),
+            os.path.join(__location__, TEST_SCHEMA_FILE_JSON))
 
+        TEST_VALUE_1 = 'John Doe'
+        TEST_VALUE_2 = 11
+
+        self.config.name = TEST_VALUE_1
+        self.config.age = TEST_VALUE_2
+        self.config.save()
+
+        # 불러들인 설정 정보 파일을 올바르게 가지고 있는지 검증
+        config = Config(TEST_CONFIG_FILE_JSON, TEST_SCHEMA_FILE_JSON)
+        self.assertEqual(config.name, TEST_VALUE_1)
+        self.assertEqual(config.age, TEST_VALUE_2)
