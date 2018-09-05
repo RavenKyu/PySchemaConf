@@ -17,6 +17,11 @@ Jack
 ```shell
 pip install pyschemaconf
 ```
+# Build & Distribution
+```shell
+$ python setup.py bdist_wheel
+$ pip install dist/pyschemaconf-x.x-py3-none-any.whl  
+```
 
 # Usage
 ## Import module
@@ -63,7 +68,7 @@ John Doe
 Hello World
 ```
 
-### Writing values
+## Writing values
 __It must load the schema for the config before writing values__
 
 ```python
@@ -89,4 +94,12 @@ Failed validating 'type' in schema:
     {'type': 'string'}
 On instance:
     1
+```
+
+## Save as file
+```python
+>>> conf.load("test_config.json", "test_schema.json")
+>>> conf.name = "John Doe"
+>>> conf.age = 111
+>>> conf.save()
 ```

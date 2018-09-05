@@ -5,7 +5,7 @@ except ImportError: # for pip <= 9.0.3
     from pip.req import parse_requirements
     from pip.download import PipSession
 
-
+from pyschemaconf import VERSION
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
 install_reqs = parse_requirements("requirements.txt", session=PipSession())
 from setuptools import setup, find_packages
@@ -15,12 +15,14 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='pyschemaconf',
-    version='1.0',
-    description='Configuration File Handle Module for Python. It supports varieties of data type such as JSON, YAML, PYTHON DICT. ',
+    version=VERSION,
+    description='Configuration File Handle Module for Python. '
+                'It supports varieties of data type such as JSON, YAML, '
+                'PYTHON DICT. ',
     author='Duk-kyu Lim',
     author_email='hong18s@gmail.com',
     url='https://github.com/RavenKyu/PySchemaConf',
-    download_url='https://github.com/RavenKyu/YAML_Schema/archive/0.9.tar.gz',
+    download_url='https://github.com/RavenKyu/PySchemaConf/archive/1.9.tar.gz',
     install_requires=reqs,
     packages=find_packages(exclude=['docs', 'tests*']),
     keywords=['yaml', 'json', 'json-schema', 'conf', 'configure'],

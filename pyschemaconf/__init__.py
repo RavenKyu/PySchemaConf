@@ -2,7 +2,7 @@ import sys
 import argparse
 
 # Version
-NUM_VERSION = (0, 9)
+NUM_VERSION = (1, 0)
 VERSION = ".".join(str(nv) for nv in NUM_VERSION)
 __version__ = VERSION
 
@@ -36,4 +36,3 @@ def main():
     conf = Config(args.config_file)
     if args.schema:
         sys.stdout.write(conf._make_schema(args.config_file))
-        # sys.stdout.write(args.config_file + '\n')

@@ -65,10 +65,10 @@ with open(TEST_SCHEMA_FILE_YAML, 'w') as f:
 
 
 TEST_WRONG_CONFIG = {
-	"name" : 123,
-	"cellphone": "010-1345-7764",
-	"address": "이상국 행복리 234",
-	"age": "33",
+    "name": 123,
+    "cellphone": "010-1345-7764",
+    "address": "이상국 행복리 234",
+    "age": "33",
     "test_1": [1, 2, 3],
     "test_2": {
         "test3": {
@@ -78,7 +78,6 @@ TEST_WRONG_CONFIG = {
         "test6": 2222
     }
 }
-
 
 
 ################################################################################
